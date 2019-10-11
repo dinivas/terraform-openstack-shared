@@ -23,7 +23,7 @@ write_files:
         This host is managed by Dinivas :)
 
     path: /etc/motd
-    permissions: '740'
+    permissions: '644'
 -   content: |
         {
           "addresses": {
