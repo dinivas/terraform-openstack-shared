@@ -46,6 +46,7 @@ write_files:
           "domain": "${consul_cluster_domain}",
           "enable_local_script_checks": true,
           "enable_script_checks": false,
+          "leave_on_terminate": true,
           "log_file": "/var/log/consul/consul.log",
           "log_level": "INFO",
           "log_rotate_bytes": 0,
