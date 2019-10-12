@@ -114,7 +114,7 @@ write_files:
     path: /etc/consul/consul.d/node_exporter-service.json
     permissions: '644'
 -   content: |
-        ${pre_configure_script}
+        ${indent(8, pre_configure_script)}
 
     path: /etc/pre-configure-dinivas.sh
     permissions: '744'
@@ -145,7 +145,7 @@ write_files:
     path: /etc/configure-dinivas.sh
     permissions: '744'
 -   content: |
-        ${post_configure_script}
+        ${indent(8, post_configure_script)}
 
     path: /etc/post-configure-dinivas.sh
     permissions: '744'
