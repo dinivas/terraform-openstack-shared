@@ -123,6 +123,7 @@ write_files:
         #!/bin/sh
 
         sed -i '1inameserver 127.0.0.1' /etc/resolv.conf
+        sed -i '2isearch node.${consul_cluster_domain}' /etc/resolv.conf
 
         #Remove Consul existing datas
         chmod -R 755 /var/consul
