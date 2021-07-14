@@ -70,7 +70,12 @@ write_files:
           "raft_protocol": 3,
           "retry_interval": "30s",
           "retry_interval_wan": "30s",
+          %{ if cloud_provider == "openstack" ~}
           "retry_join": ["provider=os tag_key=consul_cluster_name tag_value=${consul_cluster_name} domain_name=${os_auth_domain_name} user_name=${os_auth_username} password=${os_auth_password} auth_url=${os_auth_url} project_id=${os_project_id}"],
+          %{ endif }
+          %{ if cloud_provider == "digitalocean" ~}
+          "retry_join": ["provider=digitalocean region=do_region tag_name=consul_cluster_name_${consul_cluster_name}  api_token=${do_api_token}"],
+          %{ endif }
           "retry_max": 0,
           "retry_max_wan": 0,
           "server": %{ if consul_agent_mode == "server" }true%{ else }false%{ endif },
@@ -140,6 +145,7 @@ write_files:
         jq ".node_name |= \"$instance_hostname\"" /etc/consul/config.json > "$tmp" && mv -f "$tmp" /etc/consul/config.json
 
         echo " ===> Restart Consul"
+        systemctl enable consul
         systemctl restart consul
         echo " ===> Restart Unbound"
         systemctl restart unbound
