@@ -74,7 +74,7 @@ write_files:
           "retry_join": ["provider=os tag_key=consul_cluster_name tag_value=${consul_cluster_name} domain_name=${os_auth_domain_name} user_name=${os_auth_username} password=${os_auth_password} auth_url=${os_auth_url} project_id=${os_project_id}"],
           %{ endif }
           %{ if cloud_provider == "digitalocean" ~}
-          "retry_join": ["provider=digitalocean region=do_region tag_name=consul_cluster_name_${consul_cluster_name}  api_token=${do_api_token}"],
+          "retry_join": ["provider=digitalocean region=${do_region} tag_name=consul_cluster_name_${consul_cluster_name}  api_token=${do_api_token}"],
           %{ endif }
           "retry_max": 0,
           "retry_max_wan": 0,
