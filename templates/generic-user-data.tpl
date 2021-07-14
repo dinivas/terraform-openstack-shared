@@ -87,6 +87,20 @@ write_files:
     owner: consul:bin
     path: /etc/consul/config.json
     permissions: '644'
+%{ if enable_logging_graylog ~}
+-   content: |
+        [OUTPUT]
+            Name                    gelf
+            Match                   *
+            Host                    ${project_name}-graylog
+            Port                    12201
+            Mode                    tcp
+            Gelf_Short_Message_Key  MESSAGE
+
+    owner: root:root
+    path: /etc/td-agent-bit/gelf-output.conf
+    permissions: '644'
+%{ endif }
 -   content: |
         server:
           logfile: "/var/log/unbound.log"
@@ -149,6 +163,10 @@ write_files:
         systemctl restart consul
         echo " ===> Restart Unbound"
         systemctl restart unbound
+        %{ if enable_logging_graylog ~}
+        echo " ===> Restart TD-AGENT"
+        systemctl restart td-agent-bit
+        %{ endif }
 
     path: /etc/configure-dinivas.sh
     permissions: '744'
