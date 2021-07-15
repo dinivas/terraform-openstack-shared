@@ -164,6 +164,7 @@ write_files:
         echo " ===> Restart Unbound"
         systemctl restart unbound
         %{ if enable_logging_graylog ~}
+        sed -i -e '$a@INCLUDE gelf-output.conf' /etc/td-agent-bit/td-agent-bit.conf
         echo " ===> Restart TD-AGENT"
         systemctl restart td-agent-bit
         %{ endif }
