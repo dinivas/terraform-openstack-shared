@@ -76,6 +76,9 @@ write_files:
           %{ if cloud_provider == "digitalocean" ~}
           "retry_join": ["provider=digitalocean region=${do_region} tag_name=consul_cluster_name_${consul_cluster_name}  api_token=${do_api_token}"],
           %{ endif }
+          %{ if cloud_provider == "aws" ~}
+          "retry_join": ["provider=aws region=${aws_region} tag_key=consul_cluster_name tag_value=${consul_cluster_name}  access_key_id=${aws_access_key_id} secret_access_key=${aws_secret_access_key}"],
+          %{ endif }
           "retry_max": 0,
           "retry_max_wan": 0,
           "server": %{ if consul_agent_mode == "server" }true%{ else }false%{ endif },
